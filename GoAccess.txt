@@ -1,0 +1,32 @@
+#! /bin/bash
+
+echo "Installing goaccess............"  
+
+# update the packages
+sudo apt-get update 
+sudo apt-get -y upgrade
+echo "Update done!"
+
+# Install dependencies 
+# the only required dependency is the ncurses library and gcc
+sudo apt-get -y install libncursesw5-dev gcc make
+sudo apt-get -y install libgeoip-dev libtokyocabinet-dev
+echo "Installed dependencies...................."
+
+# Download the GoAccess tarball by running
+wget http://tar.goaccess.io/goaccess-1.2.tar.gz
+# extract the package
+tar -xzvf goaccess-1.2.tar.gz
+echo "Download goaccess Success!"
+
+# configure and install the package
+cd goaccess-1.2
+sudo ./configure --enable-utf8 --enable-geoip=legacy
+sudo make
+sudo make install
+echo "Installed and configured goaccess"
+
+# Create a soft link of goaccess in the /usr/bin directory by running
+sudo ln -s /usr/local/bin/goaccess /usr/bin/goaccess
+
+echo "Go Access Installation done in directory $(pwd)"
